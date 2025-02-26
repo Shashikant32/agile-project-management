@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agile_pm_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Swagger Configuration
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:your-very-long-and-secure-secret-key-that-is-at-least-512-bits-long}
+  expiration: 86400000  # 24 hours in milliseconds
+  refresh-token-expiration: 604800000  # 7 days in milliseconds
+
+app:
+  # Password reset configuration
+  password-reset-token-expiration: 3600000  # 1 hour in milliseconds
+  
+  # Audit logging configuration
+  audit-log:
+    enabled: true
+    retention-days: 90  # Keep audit logs for 90 days
+
+  # Multi-Factor Authentication Configuration
+  mfa:
+    enabled: true
+    issuer: AgileProjectManagement
+    totp-algorithm: HmacSHA1
+    totp-digits: 6
+    totp-period: 30  # 30-second time step
+    backup-codes-count: 5  # Number of backup codes generated
+    backup-codes-validity-days: 30  # Validity of backup codes
+
+  # Adaptive Authentication Security Configuration
+  security:
+    max-login-attempts: 5  # Maximum failed login attempts before marking device as suspicious
+    suspicious-login-threshold-hours: 24  # Hours to consider login frequency suspicious
+    ip-reputation-check-enabled: true  # Enable IP reputation checks
+    geolocation-check-enabled: true  # Enable geolocation-based risk assessment
+
+# Logging
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate: ERROR
+    com.agilepm: DEBUG
+    org.springframework.security: INFO
